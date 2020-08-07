@@ -44,3 +44,9 @@ def get_screen_size_picture(query):
 
     with requests.get(pic, params=params, headers=headers, stream=True) as picture, open(f'{BASE_DIR}/wallpaper.jpg', 'wb') as f:
         f.write(picture.content)
+
+
+ctypes.windll.user32.SystemParametersInfoW(
+    20, 0, os.path.join(BASE_DIR, 'wallpaper.jpg'), 3)
+
+print('Done')
