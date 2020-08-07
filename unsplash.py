@@ -31,4 +31,16 @@ def get_full_picture(query):
     return pic
 
 
-print(get_full_picture("cold"))
+def get_screen_size_picture(query):
+
+    pic = get_full_picture(query)
+    user32 = ctypes.windll.user32
+    width, height = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
+
+    params = {
+        'w': width,
+        "h": height
+    }
+
+    with requests.get(pic, params=params, headers=headers, stream=True) as picture, open(f'{BASE_DIR}/wallpaper.jpg', 'wb') as f:
+        f.write(picture.content)
