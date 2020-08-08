@@ -1,3 +1,7 @@
+"""
+This module is used to setup the program by storing the required details from the user.
+"""
+
 from configparser import ConfigParser
 from pyfiglet import figlet_format
 import os
@@ -7,6 +11,10 @@ print(figlet_format("Weather wallpaper", font="digital"))
 
 
 def already_configured():
+    """
+    If the configuration of the program is already done, 
+    then the user will be prompted if they want to overwrite it.
+    """
     if 'config.ini' in os.listdir(BASE_DIR):
         over_write = input(
             "It appears that you have already created a config file, would you like to over write it?(y/n) ").lower()
@@ -17,7 +25,9 @@ def already_configured():
 
 
 def main():
-
+    """
+    The user will be prompted to provide details like the API keys required and the exact location
+    """
     open_weather_api_key = None
     while not open_weather_api_key:
         open_weather_api_key = input(
