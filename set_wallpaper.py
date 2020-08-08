@@ -25,15 +25,19 @@ def download_wallpaper(main, description):
         )
 
         response = r.json()['results']
-        pic = response[random.randint(0, 10)]['urls']['raw']
+        pic = response[random.randint(0, 10)]['urls']['full']
 
         print(pic)
-        with requests.get(pic, stream=True) as picture, open(f'{BASE_DIR}/downloads/wallpaper.jpg', 'wb') as f:
+        with requests.get(pic, stream=True) as picture, open(f'{BASE_DIR}/wallpaper.jpg', 'wb') as f:
             f.write(picture.content)
 
         ctypes.windll.user32.SystemParametersInfoW(
-            20, 0, os.path.join(BASE_DIR, 'downloads/wallpaper.jpg'), 3)
+            20, 0, os.path.join(BASE_DIR, 'wallpaper.jpg'), 3)
+
+        os.remove(f'{BASE_DIR}/wallpaper.jpg')
     except:
+        if main == "Mist":
+            main = "Fog"
         DEFAULT_IMAGES_FOLDER = os.path.join(BASE_DIR, "Default images", main)
         images_list = os.listdir(DEFAULT_IMAGES_FOLDER)
         random_image = images_list[random.randint(0, len(images_list) - 1)]
@@ -42,5 +46,5 @@ def download_wallpaper(main, description):
 
 
 if __name__ == "__main__":
-    download_wallpaper('Fog', 'damn')
+    download_wallpaper('Fog', 'foggy')
     print('Done')
