@@ -18,7 +18,7 @@ def download_wallpaper_with_key(main, description, key):
     """
     Using the API key for the Unsplash API, images are downloaded.
 
-    Description is used for the search query in the API.
+    "description" attribute is used for the search query in the API.
 
     Parameters:
     main (str): The main attribute of the Unsplash API for weather detail
@@ -31,7 +31,8 @@ def download_wallpaper_with_key(main, description, key):
         api_params = {
             'query': description,
             'orientation': 'landscape',
-            "client_id": key
+            "client_id": key,
+            'per_page': 30
         }
 
         r = requests.get(
@@ -44,7 +45,7 @@ def download_wallpaper_with_key(main, description, key):
         The list of the images are accessed from the API
         """
         response = r.json()['results']
-        pic = response[random.randint(0, 10)]['urls']['full']
+        pic = response[random.randint(0, len(response))]['urls']['full']
 
         with requests.get(pic, stream=True) as picture, open(os.path.join(BASE_DIR, 'wallpaper.jpg'), 'wb') as f:
             f.write(picture.content)
@@ -53,9 +54,9 @@ def download_wallpaper_with_key(main, description, key):
             20, 0, os.path.join(BASE_DIR, 'wallpaper.jpg'), 3)
 
     except Exception as e:
-        print("There was an error while fetching or downloading the image")
-        print("The Error:", e)
-        print("Reverting and using defalut images")
+        print("\nThere was an error while fetching or downloading the image")
+        print("\nThe Error:", e)
+        print("\nReverting and using default images")
         set_wallpaper_without_key(main)
 
 
@@ -64,10 +65,10 @@ def set_wallpaper_without_key(main):
     When there is no Unsplash API key or if the fetching of image failed, 
     then local images are used.
 
-    Main attribute of the API is used to decide which image will be set as background
+    'main' attribute of the API is used to decide which image will be set as background
 
     Parameters:
-    main (str): The main attribute of the Unsplash API for weather detail
+    "main" (str): The main attribute of the Unsplash API for weather detail
     """
     if main == "Mist":
         main = "Fog"

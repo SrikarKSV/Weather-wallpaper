@@ -33,7 +33,7 @@ def get_weather_with_location(key, longitude=None, latitude=None, zip=None, coun
     if longitude != 'unset':
         params = get_latitude_longitude(latitude, longitude, key)
     else:
-        params = {"zip": f"{zip},{country}", "appid": key}
+        params = {"zip": f"{zip},{country}", "appid": key, 'units': 'metric'}
 
     r = request_api(params)
 
