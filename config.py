@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 from pyfiglet import figlet_format
 import os
-import sys
+from sys import exit
 
 print(figlet_format("Weather wallpaper", font="digital"))
 
@@ -13,14 +13,15 @@ def already_configured():
         if over_write == 'y':
             pass
         else:
-            sys.exit()
+            exit()
 
 
 def main():
 
     open_weather_api_key = None
     while not open_weather_api_key:
-        open_weather_api_key = input("Entry Open Weather API key(Mandatory): ")
+        open_weather_api_key = input(
+            "\nEntry Open Weather API key(Mandatory): ")
 
     print("\nEnter Unsplash API key(Optional)(If not set the default images will be selected): ")
     unsplash_api_key = input("Press enter to skip: ") or 'unset'
