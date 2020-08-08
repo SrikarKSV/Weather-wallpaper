@@ -11,6 +11,7 @@ import os
 from set_wallpaper import download_wallpaper_with_key, set_wallpaper_without_key
 from configparser import ConfigParser
 from sys import exit
+from pyfiglet import figlet_format
 
 
 def get_weather_with_location(key, longitude=None, latitude=None, zip=None, country=None):
@@ -63,6 +64,8 @@ def get_description_main(r):
     """
     From the fetched API, the description and main weather will be parsed.
 
+    And the weather report is printed.
+
     Parameters:
     r (str): The JSON fethed from the Unslpash API
 
@@ -71,6 +74,13 @@ def get_description_main(r):
     """
     description = r.json()['weather'][0]['description']
     main = r.json()['weather'][0]['main']
+
+    print('Weather Report: ')
+    print("Temperature: ", str(
+        r.json()['main']['temp'])+u"\N{DEGREE SIGN}"+"C")
+    print('Satus: ', r.json()['weather'][0]['description'].title())
+    print("Humidity: ", str(r.json()['main']['humidity'])+"%")
+
     return main, description
 
 
@@ -84,12 +94,13 @@ def get_latitude_longitude(latitude, longitude, key):
     latitude (str): The latitude of the users location
 
     Returns:
-    dictionary: A dictionary with the parameters assigned to keys  
+    dict: A dictionary with the parameters assigned to keys  
     """
     params = {
         'lat': latitude,
         "lon": longitude,
-        "appid": key
+        "appid": key,
+        'units': 'metric'
     }
     return params
 
@@ -115,6 +126,7 @@ if __name__ == "__main__":
         print("Config file is not generated, run config.py first")
         exit()
 
+    print(figlet_format("Weather wallpaper", font="digital"))
     parser = ConfigParser()
     parser.read(os.path.join(BASE_DIR, 'config.ini'))
 
